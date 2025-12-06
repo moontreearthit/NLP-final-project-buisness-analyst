@@ -50,7 +50,7 @@ def process_reviews(df, api_key):
         analysis = analyze_review(row["review_text"], api_key)
 
         results.append({
-            "review_num": row.get("review_id", i),
+            "review_id": row.get("review_id", i),
             "Review_text": row["review_text"],
             "Sentiment_Score": analysis["sentiment_score"],
             "Urgency_Score": analysis["urgency_score"],
@@ -94,7 +94,7 @@ if file and api_key:
             # ------------------------- Summary Table -------------------------
             st.header("📝 Summary")
             summary = df_result.groupby("Issue_Category").agg({
-                "review_num": "count",
+                "review_id": "count",
                 "Sentiment_Score": "mean",
                 "Urgency_Score": "mean"
             }).round(2)
