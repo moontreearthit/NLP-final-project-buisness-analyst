@@ -31,9 +31,11 @@ Review:
     try:
         response = model.generate_content(prompt)
         text = response.text.strip()
+        st.write("Raw response from Gemini:", text)
         text = text[text.find("{"): text.rfind("}") + 1]
         return json.loads(text)
     except Exception as e:
+        st.write("Error parsing Gemini response:", e)
         return {
             "sentiment_score": 0,
             "urgency_score" : 0,
