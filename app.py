@@ -62,25 +62,6 @@ def process_reviews(df, api_key):
         progress.progress((i+1)/len(df))
     return pd.DataFrame(results)
 
-def generate_business_summary(summary_df,api_key):
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-2.5-flash")
-
-    summary_text = summary_df.to_string()
-    prompt = f"""You are a Business Analyst. Using the provided DataFrame of customer reviews, please provide a concise summary in Thai that includes the following:
-Overview of the main problems reported by customers
-The category that requires immediate improvement, along with clear reasons
-Practical and realistic solutions that can be implemented to address these issues
-The summary should be short, clear, and suitable for management review.
-
-    Dataframe
-    {summary_text}
-    """
-    try:
-        response = model.generate_content(prompt)
-        return response.text
-    except:
-        return "Cannot summarized"
 
 if file and api_key:
     df_raw = pd.read_csv(file)
@@ -119,10 +100,7 @@ if file and api_key:
             }).round(2)
             st.dataframe(summary)
 
-            st.header("Overall Summary")
-            with st.spinner("In process"):
-                business_summary = generate_business_summary(summary, api_key)
-            st.markdown(business_summary)
+
 
             # ------------------------- Export CSV -------------------------
             st.header("📄 Analyzed Data")
