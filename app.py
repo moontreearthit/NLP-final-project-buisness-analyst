@@ -47,16 +47,16 @@ def process_reviews(df, api_key):
     progress = st.progress(0)
 
     for i, row in df.iterrows():
-        analysis = analyze_review(row["review_text"], api_key)
+        analysis = analyze_review(str(row["review_text"]), api_key)
 
         results.append({
-            "review_num": row.get("review_id", i),
+            "review_id": row.get("review_id", i),
             "Review_text": row["review_text"],
-            "Sentiment_Score": analysis["sentiment_score"],
-            "Urgency_Score": analysis["urgency_score"],
-            "Issue_Category": analysis["category"],
-            "Pain_Point": analysis["pain_point_summary"],
-            "Recommendation": analysis["business_recommendation"]
+            "Sentiment_Score": analysis.get["sentiment_score"],
+            "Urgency_Score": analysis.get["urgency_score"],
+            "Issue_Category": analysis.get["category"],
+            "Pain_Point": analysis.get["pain_point_summary"],
+            "Recommendation": analysis.get["business_recommendation"]
         })
 
         progress.progress((i+1)/len(df))
@@ -93,18 +93,18 @@ if file and api_key:
 
             # ------------------------- Summary Table -------------------------
             st.header("📝 Summary")
-            summary = df_result.groupby("Issue_Category").agg({
-                "review_id": "count",
-                "Sentiment_Score": "mean",
-                "Urgency_Score": "mean"
-            }).round(2)
+            summary = df_result.groupby("Issue_Category").agg(
+                Count = ("Issue_Category","count"),
+                Avg_Sentiment = ("Sentiment_Score","mean"),
+                Avg_Urgency = ("Urgency_Score", "mean")
+            ).round(2)
             st.dataframe(summary)
 
             # ------------------------- Export CSV -------------------------
             st.header("📄 Analyzed Data")
             st.dataframe(df_result)
 
-            csv = df_result.to_csv(index=False).encode("utf-8")
+            csv = df_result.to_csv(index=False).encode("utf-8-sig")
             st.download_button(
                 "⬇️ Download CSV",
                 csv,
