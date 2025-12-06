@@ -67,10 +67,11 @@ def generate_business_summary(summary_df,api_key):
     model = genai.GenerativeModel("gemini-2.5-flash")
 
     summary_text = summary_df.to_string()
-    prompt = f"""You are business analyst from DataFrame please summarize review in text in Thai language which includes of
-    1. Overview problems from customers
-    2. Which category do we must improve immediately with reasons
-    3. Solutions to solve these problems in real situation
+    prompt = f"""You are a Business Analyst. Using the provided DataFrame of customer reviews, please provide a concise summary in Thai that includes the following:
+Overview of the main problems reported by customers
+The category that requires immediate improvement, along with clear reasons
+Practical and realistic solutions that can be implemented to address these issues
+The summary should be short, clear, and suitable for management review.
 
     Dataframe
     {summary_text}
