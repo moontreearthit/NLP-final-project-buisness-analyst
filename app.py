@@ -94,7 +94,7 @@ if file and api_key:
             # ------------------------- Summary Table -------------------------
             st.header("📝 Summary")
             summary = df_result.groupby("Issue_Category").agg({
-                "review_id": "count",
+                "review_num": "count",
                 "Sentiment_Score": "mean",
                 "Urgency_Score": "mean"
             }).round(2)
